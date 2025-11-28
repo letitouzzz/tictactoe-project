@@ -4,4 +4,8 @@ project(main C)
 set(CMAKE_C_STANDARD 11)
 
 add_executable(main
-        main.c)
+        main.c
+        "PLAY (Valentin).c"
+        "SETTINGS (Maxime).c"
+        "PLAY (Antoine S).c"
+        "STATS (Antoine T).c")
