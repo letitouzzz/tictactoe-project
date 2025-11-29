@@ -122,7 +122,7 @@ int main() {
     // 3. Le switch gère tous les cas
     switch (choix_menu) {
         case 1:
-            //start_game_1v1(all_stats); <--- RETIRER LES DEUX '//' LORSQUE VOUS AUREZ FINI AVEC VOTRE CODE
+            //PlayMulti(all_stats); //<--- RETIRER LES DEUX '//' LORSQUE VOUS AUREZ FINI AVEC VOTRE CODE
             break;
 
         case 2:
