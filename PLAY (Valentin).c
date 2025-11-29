@@ -175,10 +175,4 @@ void PlayMulti() {
 
     printf("Fin de la partie\n\n");
 
-    if (joueur == 1) { // la c'est une condition pour changer celui qui commencera la prochaine partie
-        joueur = 2 ;   // comme ca à chaques parties celui qui commence change
-    }
-    else {
-        joueur = 1 ;
-    }
 }
