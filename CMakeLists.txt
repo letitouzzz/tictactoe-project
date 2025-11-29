@@ -8,4 +8,5 @@ add_executable(main
         "PLAY (Valentin).c"
         "SETTINGS (Maxime).c"
         "PLAY (Antoine S).c"
-        "STATS (Antoine T).c")
+        "STATS (Antoine T).c"
+)
