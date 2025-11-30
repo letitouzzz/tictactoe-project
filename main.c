@@ -103,7 +103,7 @@ int main() {
     printf("\n - 3. STATISTIQUES \n");
     printf("\n - 4. PARAMETRES \n");
     printf("\n - 5. QUITTER\n");
-    printf("==============================\n");
+    printf("\n==============================\n");
     printf("Votre choix (1, 2, 3, 4 ou 5) :");
     scanf("%d ", &choix_menu);
 
