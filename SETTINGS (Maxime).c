@@ -173,7 +173,7 @@ void choisir_symbole() {
     } while (1);
 }
 
-// --- Sous-menu Credits ---
+// ---- Sous-menu Credits ----
 void afficher_credits() {
     // effacer_ecran();
     printf("\n--- Credits ---\n");
