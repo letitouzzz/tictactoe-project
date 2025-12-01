@@ -3,15 +3,11 @@
 char tableau[3][3];
 char X = 'X';
 char O = 'O';
-int joueur = 1;
-int coups = 0;
 int resultat = 0;  // résultat de wincondition()
-int col ;
-int ligne ;
 
 void initTableau() { // là on met en place les caractères vides
-    for (ligne = 0; ligne < 3; ligne++) { //  dans chaque ligne
-        for (col = 0; col < 3; col++) { // 3 caractères vides qsui pourront êtres remplacés par X ou O
+    for (int ligne = 0; ligne < 3; ligne++) { //  dans chaque ligne
+        for (int col = 0; col < 3; col++) { // 3 caractères vides qsui pourront êtres remplacés par X ou O
             tableau[ligne][col] = ' ';
         }
     }
@@ -22,7 +18,7 @@ void afficherTableau() {
     printf("   0    1    2 \n");
     printf("  -------------\n"); // première ligne du tableau
 
-    for (ligne = 0; ligne < 3; ligne++) { // ligne = horizontal
+    for (int ligne = 0; ligne < 3; ligne++) { // ligne = horizontal
 
         if (ligne!= 0) {
             printf("  ----+---+----\n"); // différent de 0 donc ça sera 1 et 2 pour les deux etages du milieu
@@ -30,7 +26,7 @@ void afficherTableau() {
 
         printf("%i ",ligne);// indices verticals
 
-        for (col = 0; col < 3; col++) { // colonne = vertical
+        for (int col = 0; col < 3; col++) { // colonne = vertical
 
             printf("| %c ",tableau[ligne][col]); // donc pour chaques lignes horizontales
         }                                         // trois fois | + caractere vide
@@ -43,72 +39,58 @@ int wincondition() {
 
     // colonnes
     if (tableau[0][0] == X && tableau[1][0] == X && tableau[2][0] == X) {
-        printf("Le joueur 1 a gagné !\n");
         return 1;
     }
     if (tableau[0][1] == X && tableau[1][1] == X && tableau[2][1] == X) {
-        printf("Le joueur 1 a gagné !\n");
         return 1;
     }
     if (tableau[0][2] == X && tableau[1][2] == X && tableau[2][2] == X) {
-        printf("Le joueur 1 a gagné !\n");
         return 1;
     }
 
     if (tableau[0][0] == O && tableau[1][0] == O && tableau[2][0] == O) {
-        printf("Le joueur 2 a gagné !\n");
         return 2;
     }
     if (tableau[0][1] == O && tableau[1][1] == O && tableau[2][1] == O) {
-        printf("Le joueur 2 a gagné !\n");
         return 2;
     }
     if (tableau[0][2] == O && tableau[1][2] == O && tableau[2][2] == O) {
-        printf("Le joueur 2 a gagné !\n");
         return 2;
     }
 
     // lignes
     if (tableau[0][0] == X && tableau[0][1] == X && tableau[0][2] == X) {
-        printf("Le joueur 1 a gagné !\n");
         return 1;
     }
     if (tableau[1][0] == X && tableau[1][1] == X && tableau[1][2] == X) {
-        printf("Le joueur 1 a gagné !\n");
         return 1;
     }
     if (tableau[2][0] == X && tableau[2][1] == X && tableau[2][2] == X) {
-        printf("Le joueur 1 a gagné !\n");
         return 1;
     }
+
     if (tableau[0][0] == O && tableau[0][1] == O && tableau[0][2] == O) {
-        printf("Le joueur 2 a gagné !\n");
         return 2;
     }
     if (tableau[1][0] == O && tableau[1][1] == O && tableau[1][2] == O) {
-        printf("Le joueur 2 a gagné !\n");
         return 2;
     }
     if (tableau[2][0] == O && tableau[2][1] == O && tableau[2][2] == O) {
-        printf("Le joueur 2 a gagné !\n");
         return 2;
     }
 
     // diagonales
     if (tableau[0][0] == X && tableau[1][1] == X && tableau[2][2] == X) {
-        printf("Le joueur 1 a gagné !\n");
         return 1;
     }
     if (tableau[0][2] == X && tableau[1][1] == X && tableau[2][0] == X) {
-        printf("Le joueur 1 a gagné !\n");
         return 1;
     }
+
     if (tableau[0][0] == O && tableau[1][1] == O && tableau[2][2] == O) {
-        printf("Le joueur 2 a gagné !\n");
         return 2;
     }
     if (tableau[0][2] == O && tableau[1][1] == O && tableau[2][0] == O) {
-        printf("Le joueur 2 a gagné !\n");
         return 2;
     }
 
@@ -117,7 +99,10 @@ int wincondition() {
 
 void PlayMulti() {
     initTableau(); // on prépare les cases
-
+    int coups = 0 ;
+    int joueur = 1;
+    int ligne ;
+    int col ;
 
     printf("\n--- Début d'une partie multijoueur ---\n");
 
@@ -125,7 +110,7 @@ void PlayMulti() {
         afficherTableau(); // on affiche le tableau actuel
 
         // Indique quel joueur joue
-        printf("Joueur %d (%c) - à vous : entrez colonne puis ligne (de 0 à 2) : ",
+        printf("Joueur %d (%c) - a vous : entrez colonne espace ligne (de 0 a 2) :   ",
                joueur, joueur == 1 ? X : O);// là si joueur est = 1 %c sera X sinon ca sera O comme un if   else
 
         if (scanf("%i %i", &col, &ligne) != 2) { // Verif des deux entiers colonne puis ligne
@@ -137,7 +122,7 @@ void PlayMulti() {
             continue;
         }
         if (tableau[ligne][col] != ' ') { // on voit si la case est deja occupée
-            printf("Case déjà occupée, choisissez une autre case.\n");
+            printf("Case deja occupee, choisissez une autre case.\n");
             continue;
         }
 
@@ -154,13 +139,14 @@ void PlayMulti() {
         // Vérif de victoire
         resultat = wincondition();
         if (resultat == 1 || resultat == 2) {
-            afficherTableau(); // affiche le tableau final
+            afficherTableau();// affiche le tableau final
+            printf("Le joueur %i a gagne !! \n",resultat);
             break;
         }
 
         if (coups == 9) { // si pas de victoire + coup = 9 c'est égalité
             afficherTableau();  // vu que la win condition a été testée pour le 9e coup
-            printf("égalité !\n");
+            printf("egalite !\n\n");
             break;
         }
 
@@ -172,7 +158,12 @@ void PlayMulti() {
             joueur = 1 ;
         }
     }
+    printf("=================\n");
+    printf("Fin de la partie\n");
+    printf("=================\n\n");
+}
 
-    printf("Fin de la partie\n\n");
-
+int main() {
+    PlayMulti();
+    return 0;
 }
