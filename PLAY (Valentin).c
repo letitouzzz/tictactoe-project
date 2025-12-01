@@ -163,7 +163,3 @@ void PlayMulti() {
     printf("=================\n\n");
 }
 
-int main() {
-    PlayMulti();
-    return 0;
-}
