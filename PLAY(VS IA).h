@@ -262,3 +262,4 @@ void start_game_vs_ia(PlayerStats stats[]) {
     printf("Appuyez sur une touche pour revenir au menu...\n");
     getchar(); getchar();
 }
+
