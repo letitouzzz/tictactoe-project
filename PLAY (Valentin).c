@@ -117,7 +117,7 @@ void PlayMulti() {
 
         if (scanf("%i %i", &col, &ligne) != 2) {
             printf("Entrée invalide. Veuillez taper deux chiffres (colonne ligne).\n");
-            while (getchar() != '\n');
+            while (getchar() != '\n'){}
             continue;
         }
         if (col < 0 || col > 2 || ligne < 0 || ligne > 2) {
