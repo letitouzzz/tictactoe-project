@@ -2,155 +2,178 @@
 #include <stdio.h>
 #include <string.h>
 
-#define STATS_FILE "morpion_stats.txt"
-#define P1_INDEX 0
-#define P2_INDEX 1
-#define AI_INDEX 2
+#define FICHIER_STATS "morpion_stats.txt"
 
-//DECLARATION DE L'ENSSEMBLE DES VARIABLES UTILISES
-typedef struct {
-    char name[20];
-    int wins;
-    int losses;
-    int draws; // Matchs nuls
-} PlayerStats;
+#define ID_J1 0
+#define ID_J2 1
+#define ID_IA 2
 
-//ON TEST S'IL EXISTE DEJA UN FICHIER CONTENANT LES STATS SUR CE PC
-void save_stats(PlayerStats stats[3]) {
-    // Ouvre le fichier
-    FILE *file = fopen(STATS_FILE, "w");
+#define COL_VICTOIRES 0
+#define COL_DEFAITES 1
+#define COL_NULS 2
 
-    if (file == NULL) {
-        perror("Erreur: Impossible d'ouvrir le fichier de stats en écriture");
-        return;
-    }
-    for (int i = 0; i < 3; i++) {
-        fprintf(file, "%s %d %d %d\n",
-                stats[i].name,
-                stats[i].wins,
-                stats[i].losses,
-                stats[i].draws);
-    }
 
-    fclose(file);
-}
-
-//ON CHARGE LES STAT DEPUIS LE FICHIER, S'IL N'EXISTE PAS, ON LE CREE
-void load_or_initialize_stats(PlayerStats stats[3]) {
-    // Ouvre le fichier en mode "read" (lecture)
-    FILE *file = fopen(STATS_FILE, "r");
-
-    // CAS 1 : Le fichier n'existe pas (ou erreur de lecture)
-    if (file == NULL) {
-        printf("Fichier de stats non trouve. Creation d'un nouveau fichier...\n");
-
-        strcpy(stats[P1_INDEX].name, "Joueur_1");
-        stats[P1_INDEX].wins = 0;
-        stats[P1_INDEX].losses = 0;
-        stats[P1_INDEX].draws = 0;
-
-        strcpy(stats[P2_INDEX].name, "Joueur_2");
-        stats[P2_INDEX].wins = 0;
-        stats[P2_INDEX].losses = 0;
-        stats[P2_INDEX].draws = 0;
-
-        strcpy(stats[AI_INDEX].name, "IA_VALENTIN");
-        stats[AI_INDEX].wins = 0;
-        stats[AI_INDEX].losses = 0;
-        stats[AI_INDEX].draws = 0;
-
-        save_stats(stats);
-
-    }
-    // CAS 2 : Le fichier existe, on le lit
-    else {
-        for (int i = 0; i < 3; i++) {
-            // Lecture formatée du fichier
-            if (fscanf(file, "%s %d %d %d",
-                       stats[i].name,
-                       &stats[i].wins,
-                       &stats[i].losses,
-                       &stats[i].draws) != 4) {
-                printf("Erreur: Fichier de stats corrompu. Réinitialisation.\n");
-                fclose(file);
-
-                load_or_initialize_stats(stats);
-                return;
-                       }
-        }
-        fclose(file);
-    }
-}
-
-void clear_input_buffer() {
+void vider_buffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
 
-int main() {
+/*  On passe deux tableaux séparés :
+ * 1. noms[3][20] : Contient les 3 noms
+ * 2. stats[3][3] : Contient les chiffres (3 joueurs x 3 types de stats)
+ */
+void sauvegarder_stats(char noms[3][20], int stats[3][3]) {
+    FILE *fichier = fopen(FICHIER_STATS, "w");
 
-    PlayerStats all_stats[3];
-    load_or_initialize_stats(all_stats);
-
-    int choix_menu = 0;
-
-    printf("==============================\n");
-    printf("           MORPION            \n");
-    printf("==============================\n");
-    printf("\n - 1. JOUER (1 VS 1)\n");
-    printf("\n - 2. JOUER (VS IA)\n");
-    printf("\n - 3. STATISTIQUES \n");
-    printf("\n - 4. PARAMETRES \n");
-    printf("\n - 5. QUITTER\n");
-    printf("\n==============================\n");
-    printf("Votre choix (1, 2, 3, 4 ou 5) :");
-    scanf("%d ", &choix_menu);
-
-    if (scanf("%d", &choix_menu) != 1) {
-        // Si l'utilisateur tape "abc", scanf échoue (!= 1)
-        choix_menu = 0; // On met une valeur invalide (pour aller au "default:")
+    if (fichier == NULL) {
+        perror("Erreur d'ouverture fichier");
+        return;
     }
 
-    // 2. On nettoie le buffer après un scanf
-    clear_input_buffer();
-
-    /*
-     * =============================================
-     */
-
-    // 3. Le switch gère tous les cas
-    switch (choix_menu) {
-        case 1:
-            //PlayMulti(all_stats); //<--- RETIRER LES DEUX '//' LORSQUE VOUS AUREZ FINI AVEC VOTRE CODE
-            break;
-
-        case 2:
-            //start_game_vs_ia(all_stats); <--- RETIRER LES DEUX '//' LORSQUE VOUS AUREZ FINI AVEC VOTRE CODE
-            break;
-
-        case 3:
-            // ... (code pour afficher les stats) ...
-            break;
-
-        case 4:
-            //show_settings();  <--- RETIRER LES DEUX '//' LORSQUE VOUS AUREZ FINI AVEC VOTRE CODE
-            break;
-
-        case 5:
-            printf("\nMerci d'avoir joue. Au revoir !\n");
-            break;
-
-        default: // C'est ici qu'on gère "7", "8", "0", ou les lettres
-            printf("\nChoix invalide ! Veuillez taper un numero entre 1 et 5.\n");
-            printf("Appuyez sur Entree pour reessayer...");
-            getchar();
-            break;
+    // On parcourt les 3 joueurs (0, 1 et 2)
+    for (int i = 0; i < 3; i++) {
+        fprintf(fichier, "%s %d %d %d\n",
+                noms[i],              // Le nom
+                stats[i][0],          // Victoires
+                stats[i][1],          // Défaites
+                stats[i][2]);         // Nuls
     }
+    fclose(fichier);
+}
 
+void charger_ou_init_stats(char noms[3][20], int stats[3][3]) {
+    FILE *fichier = fopen(FICHIER_STATS, "r");
+
+    if (fichier == NULL) {
+        printf("Creation du fichier de stats...\n");
+
+        // Initialisation des Noms
+        strcpy(noms[ID_J1], "Joueur_1");
+        strcpy(noms[ID_J2], "Joueur_2");
+        strcpy(noms[ID_IA], "IA_VALENTIN");
+
+        // Initialisation des Stats à 0
+        for(int i=0; i<3; i++) {
+            stats[i][COL_VICTOIRES] = 0;
+            stats[i][COL_DEFAITES] = 0;
+            stats[i][COL_NULS] = 0;
+        }
+
+        sauvegarder_stats(noms, stats);
+    }
+    else {
+        for (int i = 0; i < 3; i++) {
+            // On lit : Nom Victoires Defaites Nuls
+            if (fscanf(fichier, "%s %d %d %d",
+                       noms[i],
+                       &stats[i][COL_VICTOIRES],
+                       &stats[i][COL_DEFAITES],
+                       &stats[i][COL_NULS]) != 4) {
+
+                printf("Fichier corrompu. Reset.\n");
+                fclose(fichier);
+                // Appel récursif pour recréer proprement
+                charger_ou_init_stats(noms, stats);
+                return;
+            }
+        }
+        fclose(fichier);
+    }
+}
+
+// Fonction pour mettre à jour les scores à la fin d'une partie
+void enregistrer_victoire(char noms[3][20], int stats[3][3], int id_gagnant, int id_perdant) {
+    if (id_gagnant == -1) {
+        // Match nul : On ajoute 1 dans la colonne 2 pour les deux
+        stats[id_perdant][COL_NULS]++;
+    } else {
+        // Victoire : Colonne 0 pour le gagnant
+        stats[id_gagnant][COL_VICTOIRES]++;
+        // Défaite : Colonne 1 pour le perdant
+        stats[id_perdant][COL_DEFAITES]++;
+    }
+    // Sauvegarde
+    sauvegarder_stats(noms, stats);
+}
+
+void afficher_stats(char noms[3][20], int stats[3][3]) {
+    printf("\n--- STATISTIQUES ---\n");
+    printf("| %-12s | Win | Def | Nul |\n", "Nom");
+    printf("|--------------|-----|-----|-----|\n");
+
+    for(int i = 0; i < 3; i++) {
+        printf("| %-12s | %-3d | %-3d | %-3d |\n",
+               noms[i],
+               stats[i][COL_VICTOIRES],
+               stats[i][COL_DEFAITES],
+               stats[i][COL_NULS]);
+    }
+    printf("----------------------------------\n");
+    printf("Entree pour continuer...");
+    vider_buffer();
+    getchar();
 }
 
 
+int main() {
+    // Tableau pour les noms des 3 joueurs (max 20 lettres)
+    char noms_joueurs[3][20];
+    // Tableau 3x3 pour les stats (Lignes=Joueurs, Cols=V/D/N)
+    int stats_joueurs[3][3];
 
+    charger_ou_init_stats(noms_joueurs, stats_joueurs);
 
+    int choix = 0;
 
+    do {
+        system("cls");
+
+        printf("\n=== MENU MORPION ===\n");
+        printf(" 1. Jouer (1 vs 1)\n");
+        printf(" 2. Jouer (1 vs IA)\n");
+        printf(" 3. Stats\n");
+        printf(" 4. Parametres\n");
+        printf(" 5. Quitter\n");
+        printf("Choix : ");
+
+        if (scanf("%d", &choix) != 1) choix = 0;
+        vider_buffer();
+
+        switch (choix) {
+            case 1:
+                printf("Lancement 1v1...\n");
+                // A la fin de ta partie, tu appelleras :
+                // enregistrer_victoire(noms_joueurs, stats_joueurs, ID_J1, ID_J2);
+                getchar();
+                break;
+
+            case 2:
+                printf("Lancement IA...\n");
+                // A la fin de ta partie :
+                // enregistrer_victoire(noms_joueurs, stats_joueurs, ID_IA, ID_J1);
+                getchar();
+                break;
+
+            case 3:
+                afficher_stats(noms_joueurs, stats_joueurs);
+                break;
+
+            case 4:
+                //Affichage menu parametres
+                break;
+
+            case 5:
+                printf("BYE BYE !!!!!");
+                break;
+
+            default:
+                printf("Choix incorrect.\n");
+                getchar();
+                break;
+        }
+
+    } while (choix != 5);
+
+    return 0;
+}
