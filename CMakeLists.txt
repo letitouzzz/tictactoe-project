@@ -9,4 +9,8 @@ add_executable(main
         "SETTINGS (Maxime).c"
         "PLAY (Antoine S).c"
         "STATS (Antoine T).c"
+        SETTINGS.h
+        "PLAY(1V1).h"
+        "PLAY(VS IA).h"
 )
+

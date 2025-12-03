@@ -103,7 +103,7 @@ int main() {
     printf("\n - 3. STATISTIQUES \n");
     printf("\n - 4. PARAMETRES \n");
     printf("\n - 5. QUITTER\n");
-    printf("==============================\n");
+    printf("\n==============================\n");
     printf("Votre choix (1, 2, 3, 4 ou 5) :");
     scanf("%d ", &choix_menu);
 
@@ -122,7 +122,7 @@ int main() {
     // 3. Le switch gère tous les cas
     switch (choix_menu) {
         case 1:
-            //start_game_1v1(all_stats); <--- RETIRER LES DEUX '//' LORSQUE VOUS AUREZ FINI AVEC VOTRE CODE
+            //PlayMulti(all_stats); //<--- RETIRER LES DEUX '//' LORSQUE VOUS AUREZ FINI AVEC VOTRE CODE
             break;
 
         case 2:

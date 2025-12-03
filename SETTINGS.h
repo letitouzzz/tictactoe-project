@@ -1,5 +1,10 @@
-#include <stdio.h>
 
+#ifndef MAIN_SETTINGS_H
+#define MAIN_SETTINGS_H
+
+#endif //MAIN_SETTINGS_H
+
+#include <stdio.h>
 
 // --- Voici les variables globales qui gèrent les paramètres du jeu ---
 int difficulte = 1;
@@ -35,6 +40,7 @@ void afficher_menu_principal() {
         // effacer_ecran();
         printf("\n-----------------------------------\n"); //Pour rendre le texte plus clair \n,
         printf("1. Parametres\n");
+        printf("2. Quitter\n");
         printf("-----------------------------------\n");
         printf("Votre choix : ");
 
@@ -177,7 +183,7 @@ void choisir_symbole() {
 void afficher_credits() {
     // effacer_ecran();
     printf("\n--- Credits ---\n");
-    printf(" Developpeur : \n - Valetnin PARADE\n - Maxime NOEL \n - Antoine Talleu\n - Antoine SEKHI\n");
+    printf(" Developpeur : \n - Valetnin PARADE\n - Maxime NOEL \n - Antoine Talleu\n - Antoine\n");
     printf(" Annee de creation : 2025\n");
     printf("------------------------\n");
     printf("Appuyez sur ENTREE pour revenir aux Parametres...\n");
