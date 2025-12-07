@@ -17,18 +17,18 @@ void vider_buffer() {
 
 // --- Fonction désactivée pour effacer l'écran ---
 void effacer_ecran() {
-    // Laisser vide
+    // effacer l'ecran
 }
 
 // --- Menu Principal ---
+
 void afficher_menu_principal(int *difficulte_ptr, char *symbole_joueur_ptr) {
     int choix;
 
     do {
         // effacer_ecran();
         printf("\n-----------------------------------\n");
-        printf("1. Parametres\n");
-        printf("2. Quitter\n"); // Ajout de l'option "Quitter" pour sortir
+        printf("3. Parametres\n"); // L'option "Paramètres" est 3
         printf("-----------------------------------\n");
         printf("Votre choix : ");
 
@@ -40,22 +40,22 @@ void afficher_menu_principal(int *difficulte_ptr, char *symbole_joueur_ptr) {
         }
 
         switch (choix) {
-            case 1:
-                // Passage des pointeurs aux paramètres
+            case 3: // Si l'utilisateur choisit 3, on va aux paramètres
                 afficher_parametres(difficulte_ptr, symbole_joueur_ptr);
-                break;
-            case 2:
-                printf("\nAu revoir ! Merci d'avoir configure le jeu.\n");
+                // Le programme revient ici et la boucle continue (choix != 99),
+                // permettant un nouvel affichage du menu principal.
                 break;
             default:
                 printf("\nChoix invalide. Appuyez sur ENTREE pour continuer...\n");
                 getchar();
         }
 
-    } while (choix != 2);
+    } while (1); // On utilise 'while(1)' car il n'y a plus d'option de sortie (Quitter) visible
+    // Si une option de sortie avait été maintenue, la condition aurait été 'while (choix != OPTION_SORTIE)'
 }
 
-// --- Menu Paramètres ---
+// --- Menu Principale Paramètres ---
+
 void afficher_parametres(int *difficulte_ptr, char *symbole_joueur_ptr) {
     int choix;
     // On utilise *difficulte_ptr et *symbole_joueur_ptr pour lire les valeurs
@@ -87,7 +87,7 @@ void afficher_parametres(int *difficulte_ptr, char *symbole_joueur_ptr) {
                 difficulte_actuelle = *difficulte_ptr;
                 break;
             case 2:
-                // Passage du pointeur pour modification
+                // ...
                 choisir_symbole(symbole_joueur_ptr);
                 // Mise à jour du symbole local pour affichage
                 symbole_actuel = *symbole_joueur_ptr;
@@ -96,7 +96,7 @@ void afficher_parametres(int *difficulte_ptr, char *symbole_joueur_ptr) {
                 afficher_credits();
                 break;
             case 4:
-                // Sort de la boucle, retour au Menu Principal
+                // Sort de la boucle, retour dans le Menu Principal
                 break;
             default:
                 printf("\nChoix invalide. Appuyez sur ENTREE pour continuer...\n");
@@ -106,6 +106,7 @@ void afficher_parametres(int *difficulte_ptr, char *symbole_joueur_ptr) {
 }
 
 // --- Sous-menu Difficulté ---
+
 void choisir_difficulte(int *difficulte_ptr) {
     int choix;
     // On utilise *difficulte_ptr pour lire la valeur actuelle
@@ -133,7 +134,7 @@ void choisir_difficulte(int *difficulte_ptr) {
             case 1:
             case 2:
             case 3:
-                // On modifie la valeur pointée (la variable dans main)
+                // On modifie la valeur pointée
                 *difficulte_ptr = choix;
                 printf("\nDifficulte reglee. Appuyez sur ENTREE pour revenir aux Parametres...\n");
                 getchar();
@@ -149,6 +150,7 @@ void choisir_difficulte(int *difficulte_ptr) {
 }
 
 // --- Sous-menu Symbole ---
+
 void choisir_symbole(char *symbole_joueur_ptr) {
     char choix_char;
     // On utilise *symbole_joueur_ptr pour lire la valeur actuelle
@@ -187,6 +189,7 @@ void choisir_symbole(char *symbole_joueur_ptr) {
 }
 
 // ---- Sous-menu Credits ----
+
 void afficher_credits() {
     // effacer_ecran();
     printf("\n--- Credits ---\n");
@@ -202,15 +205,11 @@ int main() {
     int difficulte = 1;
     char symbole_joueur = 'X';
 
-    // On passe les adresses (pointeurs) des variables
+    // On passe les adresses pointeurs des variables
     afficher_menu_principal(&difficulte, &symbole_joueur);
 
-    // On peut vérifier l'état final des variables ici si besoin
-    /*
-    printf("\n--- Etat Final ---\n");
-    printf("Difficulte: %d\n", difficulte);
-    printf("Symbole: %c\n", symbole_joueur);
-    */
+    // Un message final après le retour du menu principal
+    printf("\nConfiguration terminee. Retour a l'execution principale du programme.\n");
 
     return 0;
 }
